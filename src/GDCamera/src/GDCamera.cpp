@@ -6,44 +6,63 @@
 
 namespace gaode_camera
 {
+	cv::Mat GDCamera::image_mat = cv::Mat();
+	cv::Mat GDCamera::getGDCamera()
+	{
+		return this->image_mat;
+	}
 	void GDCamera::Init()
 	{
 
 		m_handle = SGP_InitDevice();
 		if (m_handle)
 		{
+			ROS_INFO("SGP_InitDevice SUCCESS!");
 			//成功，TODO......
+			getImage();
 		}
 		else
 		{
+			ROS_ERROR("SGP_InitDevice Failed!");
 			//失败，TODO......
 		}
 
 	}
 
-	cv::Mat GDCamera::getImage()
+	void GDCamera::getImage()
 	{
-		if(SGP_OK == SGP_Login(m_handle,ip_,username_,password_,80))
+		if(SGP_OK == SGP_Login(m_handle,ip_.c_str(),username_.c_str(),password_.c_str(),80))
 		{
+			ROS_INFO("SGP_Login SUCCESS!");
 			SGP_OpenIrVideo(m_handle, GetIrRtsp, this);
 		}
-		return image_mat;
+		else
+		{
+			ROS_ERROR("SGP_Login Failed!ip username password or port is incorrect!!! please rectify it try again!!");
+		}
 	}
 
-	static void GDCamera::GetIrRtsp(unsigned char *outdata, int w, int h, void *ptr)
+	void GDCamera::GetIrRtsp(unsigned char *outdata, int w, int h, void *ptr)
 	{
 		if(outdata)
 		{
 			cv::Mat mat(h, w, CV_8UC3, outdata);
-			cv::cvtColor(mat, mat, cv::COLOR_RGB2BGR);
-			image_mat = mat.copy();
+			cv::cvtColor(mat, image_mat, cv::COLOR_RGB2BGR);
+			ROS_INFO("GetIrRtsp SUCCESS!");
+		}
+		else
+		{
+			ROS_ERROR("GetIrRtsp Failed!");
 		}
 	}
 
 	GDCamera::~GDCamera()
 	{
 		SGP_Logout(m_handle);
+		ROS_INFO("SGP_Logout SUCCESS!");
 		SGP_UnInitDevice(m_handle);
+		ROS_INFO("SGP_UnInitDevice SUCCESS!");
+		image_mat.release();
 	}
 
 	GDCamera::GDCamera()

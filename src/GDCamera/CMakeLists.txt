@@ -118,14 +118,28 @@ catkin_package(
 ## Specify additional locations of header files
 ## Your package locations should be listed before other locations
 include_directories(
-# include
+  include
   ${catkin_INCLUDE_DIRS}
 )
 
+set(SGD_PATH "/home/philtell/Downloads/SGP_SDK_V1.2.0.20220718_Release/SDK/linux64/x64Lib")
+
+file(GLOB SGD_LIBS "${SGD_PATH}/*.so")
+
+add_library(sdb_lib SHARED ${SGD_LIBS})
+
+message(${SGD_LIBS})
+
 ## Declare a C++ library
- add_library(${PROJECT_NAME}_lib
+add_library(${PROJECT_NAME}_lib
    src/GDCamera.cpp
- )
+        )
+target_link_libraries(${PROJECT_NAME}_lib sdb_lib)
+
+set_target_properties(sdb_lib PROPERTIES
+        LINKER_LANGUAGE CXX
+        CXX_STANDARD 11
+        )
 
 ## Add cmake target dependencies of the library
 ## as an example, code may need to be generated before libraries
@@ -152,6 +166,7 @@ include_directories(
    ${catkin_LIBRARIES}
          ${PROJECT_NAME}_lib
          ${OpenCV_LIBRARIES}
+         ${SGD_LIBS}
  )
 
 #############
