@@ -1,1 +1,0 @@
-/usr/bin/c++ -fPIC -g -shared -Wl,-soname,libGDCamera_lib.so -o ../devel/lib/libGDCamera_lib.so CMakeFiles/GDCamera_lib.dir/src/GDCamera.cpp.o 
