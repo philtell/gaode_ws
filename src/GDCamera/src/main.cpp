@@ -7,8 +7,11 @@ int main(int argc,char **argv)
 {
 	ros::init(argc, argv, "gd_camera_node");
 	ros::NodeHandle nh;
+	ROS_INFO("pre publish topic!");
 	ros::Publisher pub = nh.advertise<sensor_msgs::Image>("camera/image_raw", 10);
+	ROS_INFO("have published topic!");
 	gaode_camera::GDCamera gdCamera;
+	ROS_INFO("generate GDCamera instant!");
 	ros::Rate loop_rate(10);
 	while (ros::ok())
 	{
