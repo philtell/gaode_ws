@@ -22,6 +22,7 @@ namespace gaode_camera
 			//成功，TODO......
 			if(SGP_OK == SGP_Login(m_handle,ip_.c_str(),username_.c_str(),password_.c_str(),80))
 			{
+				ROS_INFO("Init SGP_Login SUCCESS!");
 				SGP_FOCUS_TYPE type = SGP_FOCUS_AUTO; // 电机位置值0~750，当type传入SGP_FOCUS_PLACE有效
 				int value =0;
 				int ret = SGP_SetFocus(m_handle,type,value);
@@ -35,6 +36,10 @@ namespace gaode_camera
 					ROS_ERROR("SGP_SetFocus FAILED!");
 					  //失败，TODO......
 				} 
+			}
+			else
+			{
+				ROS_ERROR("Init SGP_Login FAILED!");
 			}
 			//getImage();
 		}
