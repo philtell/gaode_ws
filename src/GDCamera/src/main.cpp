@@ -16,8 +16,13 @@ int main(int argc,char **argv)
 		if(!img.empty())
 		{
 		   cv::imshow("GaoDe image",img);
+		   ROS_INFO("Read Img from gd camera");
 		}
-		ROS_INFO("Read Img from gd camera");
+		else
+		{
+			ROS_ERROR("Read Img from gd camera ERROR");
+		}
+		
 		sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", img).toImageMsg();
 		pub.publish(msg);
 		loop_rate.sleep();
