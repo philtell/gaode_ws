@@ -21,7 +21,7 @@ namespace gaode_camera
 			ROS_INFO("SGP_InitDevice SUCCESS!");
 			SGP_FOCUS_TYPE type = SGP_FOCUS_AUTO; // 电机位置值0~750，当type传入SGP_FOCUS_PLACE有效
      			int value =0;
-         		int ret = SGP_SetFocus(handle,type,value);
+         		int ret = SGP_SetFocus(m_handle,type,value);
      			if (ret == SGP_OK )
      			{
 		  		  //成功，TODO......
