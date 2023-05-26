@@ -23,19 +23,27 @@ namespace gaode_camera
 			if(SGP_OK == SGP_Login(m_handle,ip_.c_str(),username_.c_str(),password_.c_str(),80))
 			{
 				ROS_INFO("Init SGP_Login SUCCESS!");
-				SGP_FOCUS_TYPE type = SGP_FOCUS_AUTO; // 电机位置值0~750，当type传入SGP_FOCUS_PLACE有效
-				int value =0;
-				int ret = SGP_SetFocus(m_handle,type,value);
-				if (ret == SGP_OK )
+				if(SGP_OpenIrVideo(m_handle, GetIrRtsp, this)==SGP_OK)
 				{
-					  //成功，TODO......
-					ROS_INFO("SGP_SetFocus SUCCESS!");
+					ROS_INFO("开启红外成功!");
+					SGP_FOCUS_TYPE type = SGP_FOCUS_AUTO; // 电机位置值0~750，当type传入SGP_FOCUS_PLACE有效
+					int value =0;
+					int ret = SGP_SetFocus(m_handle,type,value);
+					if (ret == SGP_OK )
+					{
+						//成功，TODO......
+						ROS_INFO("SGP_SetFocus SUCCESS!");
+					}
+					else
+					{
+						ROS_ERROR("SGP_SetFocus FAILED!");
+						//失败，TODO......
+					} 
 				}
 				else
 				{
-					ROS_ERROR("SGP_SetFocus FAILED!");
-					  //失败，TODO......
-				} 
+					ROS_ERROR("开启红外失败!");
+				}
 			}
 			else
 			{
