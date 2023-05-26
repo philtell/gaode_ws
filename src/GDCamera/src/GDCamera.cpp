@@ -36,7 +36,7 @@ namespace gaode_camera
 					  //失败，TODO......
 				} 
 			}
-			getImage();
+			//getImage();
 		}
 		else
 		{
