@@ -9,6 +9,7 @@ namespace gaode_camera
 	cv::Mat GDCamera::image_mat = cv::Mat();
 	cv::Mat GDCamera::getGDCamera()
 	{
+		getImage();
 		return this->image_mat;
 	}
 	void GDCamera::Init()
