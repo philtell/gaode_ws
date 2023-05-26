@@ -16,7 +16,10 @@ int main(int argc,char **argv)
 	while (ros::ok())
 	{
 		cv::Mat img = gdCamera.getGDCamera();
-		cv::imshow("gd img",img);
+		if(!img.empty())
+		{
+		   cv::imshow("gd img",img);
+		}
 		ROS_INFO("Read Img from gd camera");
 		sensor_msgs::ImagePtr msg = cv_bridge::CvImage(std_msgs::Header(), "bgr8", img).toImageMsg();
 		pub.publish(msg);
